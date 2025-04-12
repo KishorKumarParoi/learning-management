@@ -16,7 +16,7 @@ const Card = () => {
   const [open, setIsOpen] = useState(true);
 
   return (
-    <div className="h-screen flex items-center justify-center">
+    <div className="bg-gray-100 h-screen flex items-center justify-center">
       <AnimatePresence>
         {open && (
           <motion.div
