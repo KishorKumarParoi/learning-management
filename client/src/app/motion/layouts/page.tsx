@@ -28,6 +28,14 @@ const useOutsideClick = (callback: () => void) => {
   return ref;
 };
 
+const navItems = [
+  { name: 'Home', href: '#' },
+  { name: 'About', href: '#about' },
+  { name: 'Projects', href: '#projects' },
+  { name: 'Contact', href: '#contact' },
+  { name: 'Profile', href: '#profile' },
+];
+
 const LayoutsPage = () => {
   const [currentCard, setCurrentCard] = useState<Card | null>(null);
   const handleCardClick = (card: Card) => {
@@ -37,99 +45,126 @@ const LayoutsPage = () => {
     setCurrentCard(null);
   });
 
+  const [hovered, setHovered] = useState<number | null>(null);
+
   return (
     <div className="relative min-h-screen bg-gray-100 py-10">
-      {currentCard && (
-        <motion.div
-          initial={{ opacity: 0, filter: 'blur(0px)' }}
-          animate={{ opacity: 1, filter: 'blur(0px)' }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.3 }}
-          className="fixed inset-0 z-10 h-full w-full bg-black/20 backdrop-blur-sm"
-          //   onClick={() => setCurrentCard(null)}
-        ></motion.div>
-      )}
-      {currentCard && (
-        <motion.div
-          layoutId={`card-${currentCard.title}-${currentCard.description}`}
-          ref={ref}
-          className="fixed inset-0 z-20 m-auto h-[500px] w-80 overflow-hidden rounded-2xl border border-neutral-200 bg-white-100 p-4 shadow-lg"
-        >
-          <Image
-            src={currentCard.src}
-            alt={currentCard.title}
-            width={2000}
-            height={2000}
-            priority
-            placeholder="blur"
-            blurDataURL={currentCard.src}
-            quality={100}
-            className="aspect-square h-60 rounded-2xl"
-          />
-          <div className="flex flex-col items-center justify-between">
-            <div className="flex w-full flex-col items-start justify-between gap-2">
-              <div className="mt-10 flex flex-row items-start gap-2">
-                <h2 className="text-md font-bold tracking-tight text-black">
-                  {currentCard.title}
-                </h2>
-                <Link
-                  href={currentCard.cta}
-                  className="rounded-full bg-green-500 px-8 py-1 text-xs font-bold text-white-100"
-                >
-                  {currentCard.cta}
-                </Link>
-              </div>
-              <motion.div
-                initial={{
-                  filter: 'blur(10px)',
-                  opacity: 0,
-                }}
-                animate={{
-                  filter: 'blur(0px)',
-                  opacity: 1,
-                }}
-                transition={{ duration: 0.3, delay: 0.3 }}
-                className="h-60 overflow-auto pb-20 text-[10px] text-neutral-900 [mask-image:linear-gradient(to_top,transparent_20%,black_80%)]"
-              >
-                {currentCard.description}
-              </motion.div>
-            </div>
-          </div>
-        </motion.div>
-      )}
-      <div className="mx-auto flex max-w-lg flex-col gap-10">
-        {cards.map((card, index) => (
-          <button
-            key={card.title + index}
-            onClick={() => handleCardClick(card)}
-            type="button"
-            className="flex cursor-pointer justify-between rounded-lg border bg-white-100 p-4 text-black shadow-lg"
+      {/* Navbar */}
+      <nav className="fixed left-0 right-0 top-0 z-30 mx-auto flex w-full max-w-7xl items-center justify-between space-x-2 rounded-full bg-gray-200 px-2 py-1 shadow-md">
+        {navItems.map((item, index) => (
+          <Link
+            onMouseEnter={() => setHovered(index)}
+            onMouseLeave={() => setHovered(null)}
+            key={index}
+            href={item.href}
+            className="group relative w-full py-3 text-center text-lg font-semibold text-neutral-500"
           >
-            <motion.div
-              layoutId={`card-${card.title}-${card.description}`}
-              className="flex items-center gap-4"
-            >
-              <Image
-                src={card.src}
-                alt={card.title}
-                width="200"
-                height="200"
-                className="aspect-square h-20 rounded-2xl"
+            <span className="relative z-20 text-neutral-900 group-hover:text-white-100">
+              {item.name}
+            </span>
+            {hovered === index && (
+              <motion.div
+                layoutId="hover"
+                className="absolute inset-0 h-full w-full rounded-full bg-black/90"
               />
-              <div className="flex flex-col items-center gap-2">
-                <h2 className="text-xs font-bold tracking-tight text-black">
-                  {card.title}
-                </h2>
-                <p className="text-[10px] text-neutral-900">
-                  {card.description.split(' ').slice(0, 10).join(' ')}
-                </p>
-              </div>
-            </motion.div>
-            <div className="ml-20 mt-6 h-10 rounded-lg bg-green-500 px-6 py-1 text-xs font-bold text-white-100">
-              {card.cta}
-            </div>
-          </button>
+            )}
+          </Link>
         ))}
+      </nav>
+
+      {/* Content */}
+      <div className="pt-16">
+        {currentCard && (
+          <motion.div
+            initial={{ opacity: 0, filter: 'blur(0px)' }}
+            animate={{ opacity: 1, filter: 'blur(0px)' }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 z-10 h-full w-full bg-black/20 backdrop-blur-sm"
+          ></motion.div>
+        )}
+        {currentCard && (
+          <motion.div
+            layoutId={`card-${currentCard.title}-${currentCard.description}`}
+            ref={ref}
+            className="fixed inset-0 z-20 m-auto h-[500px] w-80 overflow-hidden rounded-2xl border border-neutral-200 bg-white-100 p-4 shadow-lg"
+          >
+            <Image
+              src={currentCard.src}
+              alt={currentCard.title}
+              width={2000}
+              height={2000}
+              priority
+              placeholder="blur"
+              blurDataURL={currentCard.src}
+              quality={100}
+              className="aspect-square h-60 rounded-2xl"
+            />
+            <div className="flex flex-col items-center justify-between">
+              <div className="flex w-full flex-col items-start justify-between gap-2">
+                <div className="mt-10 flex flex-row items-start gap-2">
+                  <h2 className="text-md font-bold tracking-tight text-black">
+                    {currentCard.title}
+                  </h2>
+                  <Link
+                    href={currentCard.cta}
+                    className="rounded-full bg-green-500 px-8 py-1 text-xs font-bold text-white-100"
+                  >
+                    {currentCard.cta}
+                  </Link>
+                </div>
+                <motion.div
+                  initial={{
+                    filter: 'blur(10px)',
+                    opacity: 0,
+                  }}
+                  animate={{
+                    filter: 'blur(0px)',
+                    opacity: 1,
+                  }}
+                  transition={{ duration: 0.5, delay: 0.3 }}
+                  className="h-60 overflow-auto pb-20 text-[10px] text-neutral-900 [mask-image:linear-gradient(to_top,transparent_20%,black_80%)]"
+                >
+                  {currentCard.description}
+                </motion.div>
+              </div>
+            </div>
+          </motion.div>
+        )}
+        <div className="mx-auto flex max-w-lg flex-col gap-10">
+          {cards.map((card, index) => (
+            <button
+              key={card.title + index}
+              onClick={() => handleCardClick(card)}
+              type="button"
+              className="flex cursor-pointer justify-between rounded-lg border bg-white-100 p-4 text-black shadow-lg"
+            >
+              <motion.div
+                layoutId={`card-${card.title}-${card.description}`}
+                className="flex items-center gap-4"
+              >
+                <Image
+                  src={card.src}
+                  alt={card.title}
+                  width="200"
+                  height="200"
+                  className="aspect-square h-20 rounded-2xl"
+                />
+                <div className="flex flex-col items-center gap-2">
+                  <h2 className="text-xs font-bold tracking-tight text-black">
+                    {card.title}
+                  </h2>
+                  <p className="text-[10px] text-neutral-900">
+                    {card.description.split(' ').slice(0, 10).join(' ')}
+                  </p>
+                </div>
+              </motion.div>
+              <div className="ml-20 mt-6 h-10 rounded-lg bg-green-500 px-6 py-1 text-xs font-bold text-white-100">
+                {card.cta}
+              </div>
+            </button>
+          ))}
+        </div>
       </div>
     </div>
   );
