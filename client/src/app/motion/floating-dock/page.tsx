@@ -87,8 +87,8 @@ const FloatingDockCore = () => {
     <motion.div
       onMouseEnter={(e: any) => mouseX.set(e.pageX)}
       onMouseMove={throttle((e: any) => mouseX.set(e.pageX), 16)} // Throttle to 60fps
-      onMouseLeave={(e: any) => mouseX.set(Infinity)}
-      className="fixed inset-x-0 bottom-16 mx-auto flex h-20 w-fit items-center justify-center gap-4 rounded-2xl bg-neutral-100 px-4"
+      onMouseLeave={() => mouseX.set(Infinity)}
+      className="fixed inset-x-0 bottom-16 mx-auto flex h-20 w-fit items-center justify-center gap-4 rounded-2xl bg-neutral-100 px-4 shadow-lg"
     >
       {links.map((el, idx) => (
         <IconContainer mouseX={mouseX} key={el.title + idx} el={el} />
@@ -107,6 +107,7 @@ export const IconContainer = ({
   const ref = useRef<HTMLDivElement>(null);
   const boundsRef = useRef<{ x: number; width: number } | null>(null);
 
+  // Calculate the distance between the mouse and the icon
   const distance = useTransform(mouseX, (val) => {
     if (!boundsRef.current && ref.current) {
       boundsRef.current = ref.current.getBoundingClientRect();
@@ -115,6 +116,7 @@ export const IconContainer = ({
     return val - bounds.x - bounds.width / 2;
   });
 
+  // Transformations for icon size
   const widthTransform = useTransform(distance, [-200, 0, 200], [40, 80, 40]);
   const heightTransform = useTransform(distance, [-200, 0, 200], [40, 80, 40]);
 
@@ -129,27 +131,28 @@ export const IconContainer = ({
     [20, 40, 20]
   );
 
+  // Smooth spring animations
   const width = useSpring(widthTransform, {
-    mass: 0.1,
-    stiffness: 250,
-    damping: 20,
+    mass: 0.2,
+    stiffness: 200,
+    damping: 25,
   });
 
   const height = useSpring(heightTransform, {
-    mass: 0.1,
-    stiffness: 300,
-    damping: 20,
+    mass: 0.2,
+    stiffness: 200,
+    damping: 25,
   });
 
   const widthIcon = useSpring(widthIconTransform, {
-    stiffness: 300,
-    mass: 0.4,
+    stiffness: 250,
+    mass: 0.3,
     damping: 20,
   });
 
   const heightIcon = useSpring(heightIconTransform, {
-    stiffness: 300,
-    mass: 0.4,
+    stiffness: 250,
+    mass: 0.3,
     damping: 20,
   });
 
@@ -169,6 +172,7 @@ export const IconContainer = ({
         }}
         className="relative flex w-full items-center justify-center rounded-full bg-neutral-200"
       >
+        {/* Tooltip */}
         <AnimatePresence>
           {hovered && (
             <motion.div
@@ -191,17 +195,20 @@ export const IconContainer = ({
                 duration: 0.3,
                 delay: 0.1,
               }}
-              className="absolute inset-x-0 -top-10 left-1/2 w-full -translate-x-1/2 whitespace-pre rounded-lg border border-red-100 bg-neutral-300 px-2 py-0.5 text-center text-xs text-neutral-900"
+              className="absolute inset-x-0 -top-10 left-1/2 w-full -translate-x-1/2 whitespace-pre rounded-lg border border-neutral-300 bg-neutral-300 px-2 py-0.5 text-center text-xs text-neutral-900 shadow-md"
             >
               {el.title}
             </motion.div>
           )}
         </AnimatePresence>
+
+        {/* Icon */}
         <motion.div
           style={{
             width: widthIcon,
             height: heightIcon,
           }}
+          className="flex items-center justify-center"
         >
           {el.icon}
         </motion.div>
