@@ -1,13 +1,9 @@
-import NonDashboardNavbar from "@/components/NonDashboardNavbar";
-import LandingPage from "./(nondashboard)/landing/page";
+import NonDashboardNavbar from '@/components/NonDashboardNavbar';
 
 const Home = () => {
   return (
-    <div className="nondashboard-layout">
+    <div className="flex flex-col min-h-screen w-full ">
       <NonDashboardNavbar />
-      <main className="nondashboard-layout__main">
-        <LandingPage />
-      </main>
     </div>
   );
 };

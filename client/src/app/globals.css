@@ -1236,7 +1236,7 @@ input[type="color"] {
   @apply font-bold text-lg sm:text-xl hover:text-customgreys-dirtyGrey;
 }
 
-.nondashboard-navbar__search-input {
+.nondashboard-navbar__sefarch-input {
   @apply bg-customgreys-secondarybg pl-10 sm:pl-14 pr-6 sm:pr-20 py-3 sm:py-4 rounded-xl text-customgreys-dirtyGrey hover:text-white-50 hover:bg-customgreys-darkerGrey transition-all duration-300 text-sm sm:text-base;
 }
 
