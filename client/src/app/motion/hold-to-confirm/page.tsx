@@ -1,74 +1,42 @@
 'use client';
-
 import { motion } from 'motion/react';
-import { useState } from 'react';
 
 const HoldToConfirm = () => {
-  const [progress, setProgress] = useState(0);
-  const holdDuration = 1000; // 5 seconds to confirm
-  const [isHolding, setIsHolding] = useState(false);
-
-  const handlePointerDown = () => {
-    setIsHolding(true);
-
-    // Start progress animation
-    const startTime = Date.now();
-    const interval = setInterval(() => {
-      const elapsedTime = Date.now() - startTime;
-      const newProgress = Math.min((elapsedTime / holdDuration) * 100, 100);
-      setProgress(newProgress);
-
-      if (newProgress === 100) {
-        clearInterval(interval);
-        handleConfirm(); // Trigger confirmation action
-      }
-    }, 16); // Update every 16ms (~60fps)
-
-    // Store interval ID to clear it later
-    setIsHolding(interval);
-  };
-
-  const handlePointerUp = () => {
-    setIsHolding(false);
-    setProgress(0); // Reset progress
-    clearInterval(isHolding); // Clear interval
-  };
-
-  const handleConfirm = () => {
-    alert('Confirmed!');
-    setProgress(0); // Reset progress after confirmation
-  };
-
   return (
-    <div className="flex h-screen items-center justify-center bg-gray-900">
-      <motion.button
-        className="relative flex h-32 w-32 items-center justify-center rounded-full bg-gray-700 focus:outline-none"
-        onPointerDown={handlePointerDown}
-        onPointerUp={handlePointerUp}
-        onPointerLeave={handlePointerUp} // Reset if the pointer leaves the button
+    <div className="flex h-screen w-full items-center justify-center bg-gray-900">
+      <motion.div
+        className="relative flex h-72 w-72 items-center justify-center rounded-full"
+        initial={{ borderWidth: 0, borderColor: 'transparent' }} // No border initially
+        whileTap={{
+          borderWidth: 14, // Border starts painting
+          borderColor: '#4F8390', // Border color changes to red
+        }}
+        transition={{
+          duration: 0.5, // Smooth transition for the border animation
+          type: 'spring',
+          stiffness: 50,
+          damping: 20,
+        }}
       >
-        {/* Outer Ring */}
-        <motion.div
-          className="absolute inset-0 rounded-full border-4 border-green-500"
-          style={{
-            clipPath: 'circle(50% at 50% 50%)',
-          }}
-          animate={{ scale: progress / 100 }}
-        />
-
-        {/* Text */}
-        <motion.span
-          className="text-white text-lg font-bold"
-          animate={{
-            scale: isHolding ? 0.8 : 1, // Shrink text when holding
+        <motion.button
+          whileTap={{
+            scale: 0.7,
+            backgroundColor: '#4F8390', // Change background color to red
+            color: 'white', // Change text color to white
+            boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.5)', // Add shadow
           }}
           transition={{
-            duration: 0.3, // Smooth transition
+            duration: 1.2,
+            type: 'spring',
+            stiffness: 50,
+            damping: 20,
+            mass: 1,
           }}
+          className="relative flex h-16 w-48 items-center justify-center rounded-full bg-white-100 text-xl text-black focus:outline-none"
         >
           Hold to Confirm
-        </motion.span>
-      </motion.button>
+        </motion.button>
+      </motion.div>
     </div>
   );
 };
