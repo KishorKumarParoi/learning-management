@@ -61,13 +61,14 @@ const DrawCircleOverTime = () => {
           onPointerUp={() => setIsHolding(false)} // Stop holding
           onPointerLeave={() => setIsHolding(false)} // Reset if pointer leaves the button
           whileTap={{
-            scale: 0.9,
+            scale: 0.8,
             backgroundColor: '#a3f7bf', // Match the lighter color for consistency
           }}
           transition={{
-            duration: 0.3,
+            duration: 0.4,
+            delay: 0.1,
             type: 'spring',
-            stiffness: 100,
+            stiffness: 50,
             damping: 10,
           }}
           className="relative flex h-16 w-48 items-center justify-center rounded-full bg-white-100 text-xl text-black focus:outline-none"
