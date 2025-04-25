@@ -38,7 +38,7 @@ const AnimatedText = () => {
           opacity: 1,
         }}
         onClick={() => startAnimating()}
-        className="mr-2 rounded-md bg-neutral-800 px-4 py-2"
+        className="mr-2 rounded-md bg-blue-900 px-4 py-2"
       >
         Test
       </motion.button>
