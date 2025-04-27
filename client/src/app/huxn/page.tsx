@@ -27,12 +27,24 @@ const Home = () => {
           console.log('clicked: ', isFlipped);
         }}
       >
-        <motion.div className="absolute inset-0 flex items-center justify-center bg-teal-700/90 text-2xl font-bold">
+        <motion.div className="absolute inset-0 flex items-center justify-center bg-teal-500/90 text-2xl font-bold">
           Front Side
         </motion.div>
-        {/* <motion.div className="rotate-y-180 absolute inset-0 flex items-center justify-center bg-blue-600 text-xl font-bold">
-          Back Side
-        </motion.div> */}
+      </motion.div>
+      <motion.div
+        drag
+        whileDrag={{
+          scale: 1.2,
+          backgroundColor: 'orange',
+        }}
+        dragConstraints={{
+          top: -100,
+        }}
+        transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+        dragElastic={0.2}
+        className="ml-20 flex h-20 w-20 items-center justify-center rounded bg-blue-500"
+      >
+        kkp
       </motion.div>
     </motion.div>
   );
