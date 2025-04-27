@@ -12,6 +12,29 @@ const cardVariants = {
   },
 };
 
+const parentVariant = {
+  hidden: {
+    opacity: 0,
+  },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.8,
+    },
+  },
+};
+
+const childVariant = {
+  hidden: {
+    opacity: 0,
+    y: -20,
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+  },
+};
+
 const images = [
   'https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzNjUyOXwwfDF8c2VhcmNofDJ8fGZsYXRlJTIwY2FydHxlbnwwfHx8fDE2ODQ5NTk3MjA&ixlib=rb-4.0.3&q=80&w=400',
   'https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzNjUyOXwwfDF8c2VhcmNofDJ8fGZsYXRlJTIwY2FydHxlbnwwfHx8fDE2ODQ5NTk3MjA&ixlib=rb-4.0.3&q=80&w=400',
@@ -125,6 +148,28 @@ const Home = () => {
           </motion.div>
         ))}
       </div>
+      <motion.div
+        variants={parentVariant}
+        initial="hidden"
+        animate="visible"
+        className="mr-40 flex space-x-4"
+      >
+        {[...Array(5)].map((_, index) => (
+          <motion.div
+            key={index}
+            variants={childVariant}
+            className="flex h-20 w-20 items-center justify-center rounded-lg bg-yellow-500 text-2xl text-white-100"
+            whileHover={{ scale: 1.2 }}
+            whileTap={{ scale: 0.8 }}
+            drag
+            dragConstraints={{ top: -100, left: -100, right: 100, bottom: 100 }}
+            dragElastic={0.2}
+            transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+          >
+            {index + 1}
+          </motion.div>
+        ))}
+      </motion.div>
     </motion.div>
   );
 };
