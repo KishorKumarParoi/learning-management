@@ -136,8 +136,11 @@ input[type="color"] {
 .filepond--drop-label {
   @apply !text-white-50;
   @apply cursor-pointer;
-  @apply hover:!bg-customgreys-darkerGrey;
-  @apply hover:!text-white-100;
+}
+
+.filepond--drop-label:hover {
+  @apply !bg-customgreys-darkerGrey;
+  @apply !text-white-100;
 }
 
 /* Component Classes */
@@ -508,7 +511,11 @@ input[type="color"] {
 }
 
 .billing__select-item {
-  @apply hover:!bg-white-50 hover:!text-customgreys-primarybg cursor-pointer;
+  @apply cursor-pointer;
+}
+
+.billing__select-item:hover {
+  @apply !bg-gray-100 !text-customgreys-darkGrey;
 }
 
 .billing__grid {
@@ -1163,7 +1170,11 @@ input[type="color"] {
 }
 
 .toolbar__select-item {
-  @apply cursor-pointer hover:!bg-gray-100 hover:!text-customgreys-darkGrey;
+  @apply cursor-pointer;
+}
+
+.toolbar__select-item:hover {
+  @apply !bg-gray-100 !text-customgreys-darkGrey;
 }
 
 /* Wizard Stepper */
@@ -1557,6 +1568,7 @@ input[type="color"] {
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
   }
