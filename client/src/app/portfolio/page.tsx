@@ -1,9 +1,10 @@
-import Carousel from './Carousel';
+import Sidebar from './Sidebar';
 
 const Portfolio = () => {
   return (
     <div>
-      <Carousel />
+      {/* <Carousel /> */}
+      <Sidebar />
     </div>
   );
 };
