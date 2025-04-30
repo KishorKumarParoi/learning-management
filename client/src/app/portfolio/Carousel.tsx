@@ -5,81 +5,93 @@ import { useState } from 'react';
 
 const images = [
   'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400',
-  'https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400',
   'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400',
   'https://images.unsplash.com/photo-1523301343968-6a6ebf63c672?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400',
-  'https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400',
   'https://images.unsplash.com/photo-1519985176271-adb1088fa94c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400',
 ];
 
 const Carousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
-  const [showThumbnails, setShowThumbnails] = useState(false);
-
-  const selectSide = (index: number) => {
-    setCurrentIndex(index);
-    setShowThumbnails(true);
-    console.log(`Selected image index: ${index}`);
-    window.setTimeout(() => setShowThumbnails(false), 1000);
-  };
+  const [showThumbnails, setShowThumbnails] = useState(true);
 
   return (
-    <motion.div className="relative w-full overflow-hidden rounded-lg">
+    <div className="relative min-h-screen w-full">
       <motion.div
-        className={`mb-[2rem] flex transition-opacity duration-300 ${isHovered || showThumbnails ? 'opacity-20' : 'opacity-100'}`}
+        className={`$ relative flex items-center justify-center gap-4 overflow-hidden rounded-lg`}
       >
         {images.map((image, index) => (
-          <div
+          <Image
+            src={image}
             key={index}
+            width={100}
+            height={100}
+            className={`cursor-pointer rounded-lg transition-transform duration-300 ease-in-out ${isHovered || showThumbnails ? 'border-blue-500' : 'border-transparent'} `}
             onClick={() => {
-              selectSide(index);
+              setCurrentIndex(index);
+              setIsHovered(true);
+              setShowThumbnails(true);
             }}
-            className={`mt-[2rem] h-[5rem] w-[10rem] cursor-pointer overflow-hidden rounded-lg ${currentIndex === index ? 'border-blue-500' : 'border-transparent'}`}
-          >
-            <Image
-              src={image}
-              alt={`Thumbnail ${index + 1}`}
-              width={100}
-              height={50}
-              className="h-full w-full object-cover"
-            />
-          </div>
+            alt="Image"
+          />
         ))}
       </motion.div>
-      <div
-        className="flex"
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-      >
-        <motion.div
-          initial={{ x: -100 }}
-          animate={{ x: `-${currentIndex * 100}%` }}
-          exit={{ x: 100 }}
-          transition={{
-            type: 'spring',
-            stiffness: 300,
-            damping: 30,
+
+      <motion.div
+        initial={{
+          x: -100,
+        }}
+        animate={{
+          x: 0,
+          transition: {
             duration: 0.5,
-          }}
-          className="gap-4 transition-transform duration-500"
+            ease: 'easeInOut',
+          },
+        }}
+        exit={{
+          x: -100,
+          transition: {
+            duration: 0.5,
+            ease: 'easeInOut',
+          },
+        }}
+        onMouseEnter={() => {
+          setIsHovered(true);
+          setShowThumbnails(false);
+        }}
+        onMouseLeave={() => {
+          setIsHovered(false);
+          setShowThumbnails(true);
+        }}
+        className="relative mt-[2rem] flex items-center justify-center"
+      >
+        <Image
+          src={images[currentIndex]}
+          width={800}
+          height={800}
+          className="rounded-lg"
+          alt="Image"
+        />
+        <button
+          className="absolute bottom-10 mr-24 flex h-10 w-20 items-center justify-center rounded bg-blue-800 px-4 py-1 text-lg font-bold"
+          onClick={() =>
+            setCurrentIndex(
+              (prevIndex) => (prevIndex - 1 + images.length) % images.length
+            )
+          }
         >
-          {images.map((image, index) => (
-            <div key={index} className="min-h-full">
-              {currentIndex === index && (
-                <Image
-                  src={image}
-                  alt={`Image ${index + 1}`}
-                  width={500}
-                  height={500}
-                  className={`w-full'}`}
-                />
-              )}
-            </div>
-          ))}
-        </motion.div>
-      </div>
-    </motion.div>
+          Prev
+        </button>
+        <button
+          className="absolute bottom-10 ml-24 flex h-10 w-20 items-center justify-center rounded bg-blue-800 px-4 py-1 text-lg font-bold"
+          onClick={() =>
+            setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length)
+          }
+        >
+          Next
+        </button>
+      </motion.div>
+    </div>
   );
 };
 
