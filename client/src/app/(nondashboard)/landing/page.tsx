@@ -1,5 +1,8 @@
 'use client';
+import { useCarousel } from '@/hooks/useCarousel';
 import { motion } from 'motion/react';
+import Image from 'next/image';
+import Link from 'next/link';
 
 const LandingPage = () => {
   const text =
@@ -24,6 +27,7 @@ const LandingPage = () => {
     visible: { opacity: 1, y: 0 },
   };
 
+  const currentImage = useCarousel({ totalImages: 3 });
   return (
     <motion.div
       initial={{ opacity: 0, filter: 'blur(10px)' }}
@@ -55,6 +59,28 @@ const LandingPage = () => {
               </motion.span>
             ))}
           </motion.p>
+          <div className="w-fit">
+            <Link href="/search">
+              <div className="rounded-md bg-primary-700 px-4 py-2 hover:bg-primary-800">
+                Search for Courses
+              </div>
+            </Link>
+          </div>
+        </div>
+        <div className="relative h-full basis-1/2 overflow-hidden rounded-r-lg">
+          {['/images/hero1.jpg', '/images/hero2.jpg', '/images/hero3.jpg'].map(
+            (src, index) => (
+              <Image
+                key={index}
+                src={src}
+                alt={`Hero Image ${index + 1}`}
+                fill
+                priority={index === currentImage}
+                sizes="(max-width:768px) 100vw, (max-width:1200px) 50vw, 33vw"
+                className={`object-cover opacity-0 transition-opacity duration-500 ${index === currentImage ? 'opacity-100' : 'opacity-0'}`}
+              />
+            )
+          )}
         </div>
       </motion.div>
     </motion.div>
