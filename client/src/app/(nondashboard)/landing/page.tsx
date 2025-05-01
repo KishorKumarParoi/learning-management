@@ -33,8 +33,9 @@ const LandingPage = () => {
       initial={{ opacity: 0, filter: 'blur(10px)' }}
       animate={{ opacity: 1, filter: 'blur(0px)' }}
       transition={{ duration: 0.5 }}
-      className="flex h-full w-full items-center justify-center bg-customgreys-primarybg"
+      className="flex h-full w-full flex-col items-center justify-center bg-customgreys-primarybg"
     >
+      {/* {Courses Section} */}
       <motion.div
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
@@ -81,6 +82,39 @@ const LandingPage = () => {
               />
             )
           )}
+        </div>
+      </motion.div>
+
+      {/* Featured Courses Section */}
+      <motion.div
+        initial={{ y: 20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.5 }}
+        viewport={{ amount: 0.3, once: true }}
+        className="mx-auto mt-10 py-12"
+      >
+        <h2 className="mb-4 text-2xl font-semibold">Featured Courses</h2>
+        <p className="mb-8 text-customgreys-dirtyGrey">
+          From beginning to advanced all industries, we have the right courses
+          just for you and preparing your entire journey for learning and making
+          the most.
+        </p>
+        <div className="mb-8 flex flex-wrap gap-4">
+          {[
+            'Web Development',
+            'GenAI',
+            'Competitive Programming',
+            'React',
+            'NextJs',
+            'Blockchain',
+          ].map((tag, index) => (
+            <span
+              key={index}
+              className="rounded-full bg-customgreys-secondarybg px-4 py-1 text-sm"
+            >
+              {tag}
+            </span>
+          ))}
         </div>
       </motion.div>
     </motion.div>
