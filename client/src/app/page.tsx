@@ -1,3 +1,4 @@
+import Footer from '@/components/Footer';
 import NonDashboardNavbar from '@/components/NonDashboardNavbar';
 import LandingPage from './(nondashboard)/landing/page';
 
@@ -8,6 +9,7 @@ const Home = () => {
       <main className="flex h-full w-full flex-grow items-center justify-center">
         <LandingPage />
       </main>
+      <Footer />
     </div>
   );
 };

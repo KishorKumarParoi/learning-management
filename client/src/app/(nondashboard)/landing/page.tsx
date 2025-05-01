@@ -1,8 +1,42 @@
 'use client';
+import { Skeleton } from '@/components/ui/skeleton';
 import { useCarousel } from '@/hooks/useCarousel';
 import { motion } from 'motion/react';
 import Image from 'next/image';
 import Link from 'next/link';
+
+const LoadingSkeleton = () => {
+  return (
+    <div className="w-3/4">
+      <div className="mt-12 flex h-[500px] items-center justify-between rounded-lg bg-customgreys-secondarybg">
+        <div className="mx-auto basis-1/2 px-16">
+          <Skeleton className="mb-4 h-8 w-48" />
+          <Skeleton className="mb-2 h-4 w-96" />
+          <Skeleton className="mb-8 h-4 w-72" />
+          <Skeleton className="h-10 w-40" />
+        </div>
+        <Skeleton className="h-full basis-1/2 rounded-r-lg" />
+      </div>
+
+      <div className="mx-auto mt-10 py-12">
+        <Skeleton className="mb-4 h-6 w-48" />
+        <Skeleton className="mb-8 h-4 w-full max-w-2xl" />
+
+        <div className="mb-8 flex flex-wrap gap-4">
+          {[1, 2, 3, 4, 5, 6].map((_, index) => (
+            <Skeleton key={index} className="h-6 w-24 rounded-full" />
+          ))}
+        </div>
+
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+          {[1, 2, 3, 4].map((_, index) => (
+            <Skeleton key={index} className="h-[300px] rounded-lg" />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const LandingPage = () => {
   const text =
@@ -43,7 +77,18 @@ const LandingPage = () => {
         className="mt-12 flex h-[500px] items-center justify-between rounded-lg bg-customgreys-secondarybg p-8 shadow-lg"
       >
         <div className="mx-auto basis-1/2 px-16">
-          <h1 className="mb-4 text-4xl font-bold">Courses</h1>
+          <motion.h1
+            className="mb-4 text-4xl font-bold"
+            initial={{ y: -50, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{
+              type: 'spring',
+              stiffness: 120, // Controls the "bounciness"
+              damping: 20, // Controls how quickly the spring settles
+            }}
+          >
+            Courses
+          </motion.h1>
           <motion.p
             className="mb-8 text-lg text-gray-400"
             variants={containerVariants}
@@ -62,8 +107,11 @@ const LandingPage = () => {
           </motion.p>
           <div className="w-fit">
             <Link href="/search">
-              <div className="rounded-md bg-primary-700 px-4 py-2 hover:bg-primary-800">
-                Search for Courses
+              <div className="group relative">
+                <div className="absolute inset-0 h-full w-full scale-105 rounded-md bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500 opacity-0 blur-md transition-opacity duration-500 group-hover:opacity-100"></div>
+                <div className="text-white relative z-10 rounded-md bg-primary-700 px-6 py-3 font-semibold shadow-lg transition-all duration-300 hover:scale-105 hover:bg-primary-800">
+                  Search for Courses
+                </div>
               </div>
             </Link>
           </div>
@@ -116,6 +164,9 @@ const LandingPage = () => {
             </span>
           ))}
         </div>
+
+        {/* Courses Display */}
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4"></div>
       </motion.div>
     </motion.div>
   );
