@@ -8,10 +8,14 @@ export const listCourses = async (
 ): Promise<void> => {
   const { category } = req.query;
   try {
+    console.log("Fetching Data ---->>");
     const courses =
       category && category !== "all"
         ? await Course.scan("category").eq(category).exec()
         : await Course.scan().exec();
+    console.log("------>> Got Data ");
+    console.log("Courses: ", courses);
+
     res.json({ message: "Courses Received Successfully!", data: courses });
   } catch (err) {
     console.log(`Error Happening: ${err}`);
