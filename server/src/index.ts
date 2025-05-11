@@ -7,7 +7,7 @@ import helmet from "helmet";
 import morgan from "morgan";
 
 // Route Imports
-
+import courseRoutes from "./routes/courseRoutes";
 // Configurations
 dotenv.config();
 
@@ -35,6 +35,12 @@ app.use(cors());
 /* ROUTES */
 app.get("/", (req, res) => {
   res.send("Hello World!\n");
+});
+
+app.use("/courses", courseRoutes);
+
+app.get("/kkp", (req, res) => {
+  res.send("Hello KKP!\n");
 });
 
 /* SERVER */
