@@ -13,7 +13,7 @@ dotenv.config();
 
 const isProduction = process.env.NODE_ENV === "production";
 
-if (isProduction) {
+if (!isProduction) {
   dynamoose.aws.ddb.local();
 }
 

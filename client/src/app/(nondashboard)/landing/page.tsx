@@ -125,7 +125,7 @@ const LandingPage = () => {
                 alt={`Hero Image ${index + 1}`}
                 fill
                 priority={index === currentImage}
-                sizes="(max-width:768px) 100vw, (max-width:1200px) 50vw, 33vw"
+                sizes="(max-width:768px) 100vw, (max-width:1200px) 5k0vw, 33vw"
                 className={`object-cover opacity-0 transition-opacity duration-500 ${index === currentImage ? 'opacity-100' : 'opacity-0'}`}
               />
             )
@@ -136,7 +136,7 @@ const LandingPage = () => {
       {/* Featured Courses Section */}
       <motion.div
         initial={{ y: 20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
+        whileInView={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5 }}
         viewport={{ amount: 0.3, once: true }}
         className="mx-auto mt-10 py-12"

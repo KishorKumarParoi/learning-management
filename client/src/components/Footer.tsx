@@ -9,7 +9,7 @@ const Footer = () => {
           <Link
             key={item}
             href={`/${item}.toLowerCase().replace(" ", "-")`}
-            className="mx-2 text-primary-500"
+            className="mx-6 text-primary-500"
           >
             {item}
           </Link>

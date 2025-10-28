@@ -11,6 +11,7 @@ import pluralize from "pluralize";
 import Course from "../models/courseModel.js";
 import Transaction from "../models/transactionModel.js";
 import UserCourseProgress from "../models/userCourseProgressModel.js";
+import { fileURLToPath } from "url";
 
 dotenv.config();
 let client: DynamoDBClient;
@@ -43,6 +44,9 @@ console.warn = (message, ...args) => {
     originalWarn(message, ...args);
   }
 };
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 async function createTables() {
   const models = [Transaction, UserCourseProgress, Course];
@@ -141,7 +145,7 @@ export default async function seed() {
   }
 }
 
-if (require.main === module) {
+if (process.argv[1].endsWith("seedDynamodb.ts") || process.argv[1].endsWith("seedDynamodb.js")) {
   seed().catch((error) => {
     console.error("Failed to run seed script:", error);
   });

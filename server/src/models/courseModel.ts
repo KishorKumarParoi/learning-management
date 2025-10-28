@@ -1,6 +1,7 @@
-import { Schema, model } from "dynamoose";
+import dynamoose from "dynamoose";
 
-const commentSchema = new Schema({
+// Use dynamoose.Schema and dynamoose.model instead of named imports
+const commentSchema = new dynamoose.Schema({
   commentId: {
     type: String,
     required: true,
@@ -19,7 +20,7 @@ const commentSchema = new Schema({
   },
 });
 
-const chapterSchema = new Schema({
+const chapterSchema = new dynamoose.Schema({
   chapterId: {
     type: String,
     required: true,
@@ -46,7 +47,7 @@ const chapterSchema = new Schema({
   },
 });
 
-const sectionSchema = new Schema({
+const sectionSchema = new dynamoose.Schema({
   sectionId: {
     type: String,
     required: true,
@@ -64,7 +65,7 @@ const sectionSchema = new Schema({
   },
 });
 
-const courseSchema = new Schema(
+const courseSchema = new dynamoose.Schema(
   {
     courseId: {
       type: String,
@@ -113,7 +114,7 @@ const courseSchema = new Schema(
     enrollments: {
       type: Array,
       schema: [
-        new Schema({
+        new dynamoose.Schema({
           userId: {
             type: String,
             required: true,
@@ -127,5 +128,5 @@ const courseSchema = new Schema(
   }
 );
 
-const Course = model("Course", courseSchema);
+const Course = dynamoose.model("Course", courseSchema);
 export default Course;

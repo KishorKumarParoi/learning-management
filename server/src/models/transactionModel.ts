@@ -1,6 +1,6 @@
-import { Schema, model } from "dynamoose";
+import dynamoose, { model } from "dynamoose";
 
-const transactionSchema = new Schema(
+const transactionSchema = new dynamoose.Schema(
   {
     userId: {
       type: String,

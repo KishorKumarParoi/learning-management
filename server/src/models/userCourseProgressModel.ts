@@ -1,6 +1,6 @@
-import { Schema, model } from "dynamoose";
+import dynamoose, { model } from "dynamoose";
 
-const chapterProgressSchema = new Schema({
+const chapterProgressSchema = new dynamoose.Schema({
   chapterId: {
     type: String,
     required: true,
@@ -11,7 +11,7 @@ const chapterProgressSchema = new Schema({
   },
 });
 
-const sectionProgressSchema = new Schema({
+const sectionProgressSchema = new dynamoose.Schema({
   sectionId: {
     type: String,
     required: true,
@@ -22,7 +22,7 @@ const sectionProgressSchema = new Schema({
   },
 });
 
-const userCourseProgressSchema = new Schema(
+const userCourseProgressSchema = new dynamoose.Schema(
   {
     userId: {
       type: String,
