@@ -1,9 +1,13 @@
 'use client';
+import CourseCardSearch from '@/components/Course-Components/CourseCardSearch';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useCarousel } from '@/hooks/useCarousel';
+import { cn } from '@/lib/utils';
+import { useGetCoursesQuery } from '@/state/api';
 import { motion } from 'motion/react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 const LoadingSkeleton = () => {
   return (
@@ -39,6 +43,8 @@ const LoadingSkeleton = () => {
 };
 
 const LandingPage = () => {
+  const router = useRouter();
+
   const text =
     'This is the list of the courses you can enroll in. Courses when you need them and want them.';
 
@@ -62,6 +68,24 @@ const LandingPage = () => {
   };
 
   const currentImage = useCarousel({ totalImages: 3 });
+
+  const { data: courses, isLoading, isError } = useGetCoursesQuery({})
+
+  if (isLoading) {
+    return <LoadingSkeleton />;
+  }
+
+  if (isError) {
+    return <div>Error loading courses.</div>;
+  }
+
+  console.log("Courses: ", courses);
+
+
+  const handleCourseClick = (courseId: string) => {
+    router.push(`/search?id=${courseId}`);
+  }
+
   return (
     <motion.div
       initial={{ opacity: 0, filter: 'blur(10px)' }}
@@ -166,7 +190,23 @@ const LandingPage = () => {
         </div>
 
         {/* Courses Display */}
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4"></div>
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+          {
+            isLoading ? <CourseListSkeleton count={4} /> :
+              (courses && courses.slice(0, 5).map((course, index) => (
+                <motion.div
+                  key={course.courseId}
+                  initial={{ y: 50, opacity: 0 }}
+                  whileInView={{ y: 0, opacity: 1 }}
+                  transition={{ duration: 0.5, delay: index * 0.2 }}
+                  viewport={{ amount: 0.4 }}
+                >
+                  <CourseCardSearch course={course} isSelected={true} onClick={() => handleCourseClick(course.courseId)} />
+                </motion.div>
+              ))
+              )
+          }
+        </div>
       </motion.div>
     </motion.div>
   );
