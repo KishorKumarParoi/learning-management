@@ -3,6 +3,7 @@ import CourseCardSearch from '@/components/Course-Components/CourseCardSearch';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useCarousel } from '@/hooks/useCarousel';
 import { useGetCoursesQuery } from '@/state/api';
+import { useUser } from '@clerk/nextjs';
 import { motion } from 'motion/react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -42,6 +43,7 @@ const LoadingSkeleton = () => {
 };
 
 const LandingPage = () => {
+  const user = useUser();
   const router = useRouter();
 
   const text =
@@ -84,6 +86,8 @@ const LandingPage = () => {
   const handleCourseClick = (courseId: string) => {
     router.push(`/search?id=${courseId}`);
   }
+
+  console.log("User: ", user);
 
   return (
     <motion.div
