@@ -2,7 +2,6 @@
 import CourseCardSearch from '@/components/Course-Components/CourseCardSearch';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useCarousel } from '@/hooks/useCarousel';
-import { cn } from '@/lib/utils';
 import { useGetCoursesQuery } from '@/state/api';
 import { motion } from 'motion/react';
 import Image from 'next/image';
@@ -200,7 +199,7 @@ const LandingPage = () => {
                 transition={{ duration: 0.5, delay: index * 0.2 }}
                 viewport={{ amount: 0.4 }}
               >
-                <CourseCardSearch course={course} isSelected={true} onClick={() => handleCourseClick(course.courseId)} />
+                <CourseCardSearch course={course} isSelected={false} onClick={() => handleCourseClick(course.courseId)} />
               </motion.div>
             ))
           }
