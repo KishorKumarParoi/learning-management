@@ -1109,7 +1109,7 @@ input[type="color"] {
 
 /* Loading */
 .loading {
-  @apply fixed inset-0 flex gap-2 items-center justify-center bg-background/50;
+  @apply fixed inset-0 flex gap-2 items-center justify-center;
 }
 
 .loading__spinner {
@@ -1117,7 +1117,7 @@ input[type="color"] {
 }
 
 .loading__text {
-  @apply text-sm font-medium text-primary-700;
+  @apply text-lg font-bold text-primary-700;
 }
 
 /* Navbar */
