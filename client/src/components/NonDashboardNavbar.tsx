@@ -10,7 +10,7 @@ const NonDashboardNavbar = () => {
             href={'/'}
             className="text-lg font-bold hover:text-customgreys-dirtyGrey sm:text-xl"
           >
-            Kepi
+            Pidemy
           </Link>
           <div className="flex items-center gap-4">
             <div className="group relative">
@@ -35,15 +35,16 @@ const NonDashboardNavbar = () => {
             </div>
           </div>
         </div>
+
+        <div className="flex items-center gap-2 sm:gap-4">
+          <button className="relative flex h-7 w-7 items-center justify-center rounded-full bg-gray-800 sm:h-8 sm:w-8">
+            <span className="absolute right-0 top-0 h-1.5 rounded-full bg-blue-500 sm:h-2 sm:w-2"></span>
+            <Bell className="h-4 w-4 text-gray-500 sm:h-5 sm:w-5" />
+          </button>
+          {/* TODO: Sign In Button */}
+        </div>
       </div>
 
-      <div className="flex items-center gap-2 sm:gap-4">
-        <button className="relative flex h-7 w-7 items-center justify-center rounded-full bg-gray-800 sm:h-8 sm:w-8">
-          <span className="absolute right-0 top-0 h-1.5 rounded-full bg-blue-500 sm:h-2 sm:w-2"></span>
-          <Bell className="h-4 w-4 text-gray-500 sm:h-5 sm:w-5" />
-        </button>
-        {/* TODO: Sign In Button */}
-      </div>
     </nav>
   );
 };

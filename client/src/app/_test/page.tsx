@@ -10,7 +10,7 @@ const TestNonDashboardPage = () => {
             href="/"
             className="text-lg font-bold hover:text-customgreys-dirtyGrey sm:text-xl"
           >
-            Kepi
+            Pidemy
           </Link>
           <div className="flex items-center gap-4">
             <div className="group relative">

@@ -192,19 +192,17 @@ const LandingPage = () => {
         {/* Courses Display */}
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
           {
-            isLoading ? <CourseListSkeleton count={4} /> :
-              (courses && courses.slice(0, 5).map((course, index) => (
-                <motion.div
-                  key={course.courseId}
-                  initial={{ y: 50, opacity: 0 }}
-                  whileInView={{ y: 0, opacity: 1 }}
-                  transition={{ duration: 0.5, delay: index * 0.2 }}
-                  viewport={{ amount: 0.4 }}
-                >
-                  <CourseCardSearch course={course} isSelected={true} onClick={() => handleCourseClick(course.courseId)} />
-                </motion.div>
-              ))
-              )
+            courses && courses.slice(0, 5).map((course, index) => (
+              <motion.div
+                key={course.courseId}
+                initial={{ y: 50, opacity: 0 }}
+                whileInView={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.5, delay: index * 0.2 }}
+                viewport={{ amount: 0.4 }}
+              >
+                <CourseCardSearch course={course} isSelected={true} onClick={() => handleCourseClick(course.courseId)} />
+              </motion.div>
+            ))
           }
         </div>
       </motion.div>
