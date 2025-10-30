@@ -1,7 +1,14 @@
+"use client";
+import { SignedIn, SignedOut, UserButton, useUser } from '@clerk/nextjs';
+import { dark } from '@clerk/themes';
 import { Bell, BookOpen } from 'lucide-react';
 import Link from 'next/link';
 
 const NonDashboardNavbar = () => {
+  const { user } = useUser();
+  const userRole = user?.publicMetadata.userType as "student" | "teacher"
+  console.log("userRole:", userRole);
+
   return (
     <nav className="flex w-full justify-center bg-customgreys-primarybg">
       <div className="flex w-3/4 items-center justify-between py-8">
@@ -42,6 +49,29 @@ const NonDashboardNavbar = () => {
             <Bell className="h-4 w-4 text-gray-500 sm:h-5 sm:w-5" />
           </button>
           {/* TODO: Sign In Button */}
+          <SignedIn>
+            <UserButton appearance={{
+              baseTheme: dark,
+              elements: {
+                userButtonOuterIdentifier: "text-customgreys-dirtyGrey",
+                userButtonBox: "scale-90 sm:scale-100",
+              }
+            }}
+              showName={true}
+              userProfileMode='navigation'
+              userProfileUrl={
+                userRole === "teacher" ? "/teacher/profile" : "/user/profile"
+              }
+            />
+          </SignedIn>
+          <SignedOut>
+            <Link href={"/signin"} className='nondashboard-navbar__auth-button--login' >
+              Log in
+            </Link>
+            <Link href={"/signup"} className='nondashboard-navbar__auth-button--signup' >
+              Sign up
+            </Link>
+          </SignedOut>
         </div>
       </div>
 
