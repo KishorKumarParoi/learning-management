@@ -24,7 +24,10 @@ const DashboardNavbar = ({ isCoursePage }: { isCoursePage: boolean }) => {
                     <div className='flex items-center gap-4'>
                         <div className='relative group'>
                             <Link href={"/search"}
-                                className={cn('dashboard-navbar__search-input', `!bg-customgreys-secondarybg : ${isCoursePage}`)}>
+                                className={cn(
+                                    'dashboard-navbar__search-input',
+                                    isCoursePage && 'bg-customgreys-secondarybg'
+                                )}>
                                 <span className='hidden sm:inline'>Search Courses</span>
                                 <span className='sm:hidden'>Search</span>
                             </Link>

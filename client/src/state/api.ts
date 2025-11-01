@@ -1,4 +1,5 @@
 import { BaseQueryApi, createApi, FetchArgs, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { string } from "zod";
 
 
 export const customBaseQuery = async (args: string | FetchArgs, api: BaseQueryApi, extraOptions: any) => {
@@ -23,9 +24,17 @@ export const customBaseQuery = async (args: string | FetchArgs, api: BaseQueryAp
 export const api = createApi({
   baseQuery: customBaseQuery,
   reducerPath: "api",
-  tagTypes: ['Courses'],
+  tagTypes: ['Courses', "Users"],
 
   endpoints: (build) => ({
+    updateUser: build.mutation<User, Partial<User> & { userId: string }>({
+      query: ({ userId, ...updatedUser }) => ({
+        url: `users/clerk/${userId}`,
+        method: "PUT",
+        body: updatedUser
+      }),
+      invalidatesTags: ["Users"]
+    }),
     getCourses: build.query<Course[], { category?: string }>({
       query: ({ category }) => ({
         url: "courses",
@@ -42,4 +51,4 @@ export const api = createApi({
   }),
 });
 
-export const { useGetCoursesQuery, useGetCourseQuery } = api
+export const { useGetCoursesQuery, useGetCourseQuery, useUpdateUserMutation } = api
