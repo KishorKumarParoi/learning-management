@@ -6,7 +6,7 @@ const Home = () => {
   return (
     <div className="flex min-h-screen w-full flex-col">
       <NonDashboardNavbar />
-      <main className="flex h-full w-full flex-grow items-center justify-center">
+      <main className="flex h-full w-full flex-grow items-center mx-auto justify-center">
         <LandingPage />
       </main>
       <Footer />

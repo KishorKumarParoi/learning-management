@@ -1,8 +1,11 @@
+import SharedNotificationSettingsPage from '@/components/SharedNotifications'
 import React from 'react'
 
 const UserSettings = () => {
     return (
-        <div className=''>UserSettings</div>
+        <div className='w-3/5'>
+            <SharedNotificationSettingsPage title='User Settings' subtitle='Manage your user notification settings' />
+        </div>
     )
 }
 

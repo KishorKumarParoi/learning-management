@@ -37,15 +37,15 @@ interface FormFieldProps {
   name: string;
   label: string;
   type?:
-    | "text"
-    | "email"
-    | "textarea"
-    | "number"
-    | "select"
-    | "switch"
-    | "password"
-    | "file"
-    | "multi-input";
+  | "text"
+  | "email"
+  | "textarea"
+  | "number"
+  | "select"
+  | "switch"
+  | "password"
+  | "file"
+  | "multi-input";
   placeholder?: string;
   options?: { value: string; label: string }[];
   accept?: string;
@@ -188,9 +188,8 @@ export const CustomFormField: React.FC<FormFieldProps> = ({
       defaultValue={initialValue}
       render={({ field }) => (
         <FormItem
-          className={`${
-            type !== "switch" && "rounded-md"
-          } relative ${className}`}
+          className={`${type !== "switch" && "rounded-md"
+            } relative ${className}`}
         >
           {type !== "switch" && (
             <div className="flex justify-between items-center">
