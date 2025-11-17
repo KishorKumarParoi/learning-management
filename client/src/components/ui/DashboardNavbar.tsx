@@ -18,10 +18,12 @@ const DashboardNavbar = ({ isCoursePage }: { isCoursePage: boolean }) => {
                     <div className='md:hidden'>
                         <SidebarTrigger className='dashboard-navbar__sidebar-trigger' />
                     </div>
-                    <Link href={"/"} className='dashboard-navbar__brand'>
+                    <Link href={"/"} className='dashboard-navbar__brand text-xl font-bold'>
                         Pidemy
                     </Link>
                     <div className='flex items-center gap-4'>
+                        <BookOpen
+                            className='dahboard-navbar__search-icon' size={18} />
                         <div className='relative group'>
                             <Link href={"/search"}
                                 className={cn(
@@ -31,8 +33,6 @@ const DashboardNavbar = ({ isCoursePage }: { isCoursePage: boolean }) => {
                                 <span className='hidden sm:inline'>Search Courses</span>
                                 <span className='sm:hidden'>Search</span>
                             </Link>
-                            <BookOpen
-                                className='dahboard-navbar__search-icon' size={18} />
                         </div>
                     </div>
                 </div>

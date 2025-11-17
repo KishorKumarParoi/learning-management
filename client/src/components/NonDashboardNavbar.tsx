@@ -19,7 +19,7 @@ const NonDashboardNavbar = () => {
           >
             Pidemy
           </Link>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap- mb-4">
             <div className="group relative">
               <Link
                 href={'/search'}
