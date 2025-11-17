@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { DM_Sans } from "next/font/google";
 import "./globals.css";
 import Providers, { ClerkProviderClient } from "./providers";
+import { Toaster } from "sonner";
 
 const dmSans = DM_Sans({
   subsets: ["latin"],
@@ -25,6 +26,7 @@ export default function RootLayout({
         <body className={`${dmSans.className} antialiased`}>
           <Providers>
             <div className="root-layout">{children}</div>
+            <Toaster richColors closeButton position="top-right" />
           </Providers>
         </body>
       </html>
