@@ -1,6 +1,7 @@
 import { Clerk } from '@clerk/clerk-js';
 import { BaseQueryApi, createApi, FetchArgs, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { User } from "@clerk/nextjs/server"
+import { toast } from 'sonner';
 
 export const customBaseQuery = async (args: string | FetchArgs, api: BaseQueryApi, extraOptions: any) => {
   const baseQuery = fetchBaseQuery({
@@ -16,9 +17,30 @@ export const customBaseQuery = async (args: string | FetchArgs, api: BaseQueryAp
 
   try {
     const result: any = await baseQuery(args, api, extraOptions);
+
+    if (result.error) {
+      const errorData = result.error.data;
+      const errorMessage = errorData?.message || result.error.status.toString() || 'An unknown error occurred';
+      toast.error(`Error: ${errorMessage}`);
+    }
+
+    const isMutationRequest = (args as FetchArgs).method && (args as FetchArgs).method !== 'GET';
+
+    if (isMutationRequest && !result.error) {
+      const successMessage = result.data?.message;
+      if (successMessage) {
+        toast.success(successMessage);
+      }
+    }
+
     if (result.data) {
       result.data = result.data.data
+    } else if (
+      result.error?.status === 204 || result.meta?.response?.status === 24
+    ) {
+      return { data: null };
     }
+
     return result;
 
   } catch (error) {
@@ -49,13 +71,21 @@ export const api = createApi({
       }),
       providesTags: ['Courses'],
     }),
-    getCourse: build.query<Course, { id: string }>({
-      query: ({ id }) => ({
+    getCourse: build.query<Course, string>({
+      query: (id) => ({
         url: `courses/${id}`
       }),
       providesTags: (result, error, { id }) => [{ type: 'Courses', id }],
+    }),
+    createStripePaymentIntent: build.mutation<{ clientSecret: string }, { amount: number }>({
+      query: ({ amount }) => ({
+        url: `transactions/create-payment-intent`,
+        method: "POST",
+        body: { amount }
+      }),
+      invalidatesTags: ["Users"]
     })
   }),
 });
 
-export const { useGetCoursesQuery, useGetCourseQuery, useUpdateUserMutation } = api
+export const { useGetCoursesQuery, useGetCourseQuery, useUpdateUserMutation, useCreateStripePaymentIntentMutation } = api
