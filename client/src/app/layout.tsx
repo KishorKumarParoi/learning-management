@@ -26,7 +26,7 @@ export default function RootLayout({
         <body className={`${dmSans.className} antialiased`}>
           <Providers>
             <div className="root-layout">{children}</div>
-            <Toaster richColors closeButton position="top-right" />
+            <Toaster richColors closeButton position="bottom-right" />
           </Providers>
         </body>
       </html>
