@@ -7,6 +7,7 @@ import helmet from "helmet";
 import morgan from "morgan";
 import { clerkMiddleware, createClerkClient, requireAuth } from "@clerk/express";
 import userClerkRoutes from "./routes/userClerkRoutes"
+import transactionsRoutes from "./routes/transactionRoutes";
 
 // Route Imports
 import courseRoutes from "./routes/courseRoutes";
@@ -46,6 +47,7 @@ app.get("/", (req, res) => {
 
 app.use("/courses", courseRoutes);
 app.use("/users/clerk", requireAuth(), userClerkRoutes);
+app.use("/transactions", requireAuth(), transactionsRoutes);
 
 app.get("/kkp", (req, res) => {
   res.send("Hello KKP!\n");
