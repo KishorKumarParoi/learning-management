@@ -75,7 +75,7 @@ export const api = createApi({
       query: (id) => ({
         url: `courses/${id}`
       }),
-      providesTags: (result, error, { id }) => [{ type: 'Courses', id }],
+      providesTags: (result, error, id) => [{ type: 'Courses', id }],
     }),
     createStripePaymentIntent: build.mutation<{ clientSecret: string }, { amount: number }>({
       query: ({ amount }) => ({
