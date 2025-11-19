@@ -161,54 +161,56 @@ const LandingPage = () => {
       </motion.div>
 
       {/* Featured Courses Section */}
-      <motion.div
-        initial={{ y: 20, opacity: 0 }}
-        whileInView={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.5 }}
-        viewport={{ amount: 0.3, once: true }}
-        className="mx-auto mt-10 py-12"
-      >
-        <h2 className="mb-4 text-2xl font-semibold">Featured Courses</h2>
-        <p className="mb-8 text-customgreys-dirtyGrey">
-          From beginning to advanced all industries, we have the right courses
-          just for you and preparing your entire journey for learning and making
-          the most.
-        </p>
-        <div className="mb-8 flex flex-wrap gap-4">
-          {[
-            'Web Development',
-            'GenAI',
-            'Competitive Programming',
-            'React',
-            'NextJs',
-            'Blockchain',
-          ].map((tag, index) => (
-            <span
-              key={index}
-              className="rounded-full bg-customgreys-secondarybg px-4 py-1 text-sm"
-            >
-              {tag}
-            </span>
-          ))}
-        </div>
-
-        {/* Courses Display */}
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
-          {
-            courses && courses.slice(0, 5).map((course, index) => (
-              <motion.div
-                key={course.courseId}
-                initial={{ y: 50, opacity: 0 }}
-                whileInView={{ y: 0, opacity: 1 }}
-                transition={{ duration: 0.5, delay: index * 0.2 }}
-                viewport={{ amount: 0.4 }}
+      <div className='p-20'>
+        <motion.div
+          initial={{ y: 20, opacity: 0 }}
+          whileInView={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.5 }}
+          viewport={{ amount: 0.3, once: true }}
+          className="mx-auto mt-10 py-12"
+        >
+          <h2 className="mb-4 text-2xl font-semibold">Featured Courses</h2>
+          <p className="mb-8 text-customgreys-dirtyGrey">
+            From beginning to advanced all industries, we have the right courses
+            just for you and preparing your entire journey for learning and making
+            the most.
+          </p>
+          <div className="mb-8 flex flex-wrap gap-4">
+            {[
+              'Web Development',
+              'GenAI',
+              'Competitive Programming',
+              'React',
+              'NextJs',
+              'Blockchain',
+            ].map((tag, index) => (
+              <span
+                key={index}
+                className="rounded-full bg-customgreys-secondarybg px-4 py-1 text-sm"
               >
-                <CourseCardSearch course={course} isSelected={false} onClick={() => handleCourseClick(course.courseId)} />
-              </motion.div>
-            ))
-          }
-        </div>
-      </motion.div>
+                {tag}
+              </span>
+            ))}
+          </div>
+
+          {/* Courses Display */}
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+            {
+              courses && courses.slice(0, 5).map((course, index) => (
+                <motion.div
+                  key={course.courseId}
+                  initial={{ y: 50, opacity: 0 }}
+                  whileInView={{ y: 0, opacity: 1 }}
+                  transition={{ duration: 0.5, delay: index * 0.2 }}
+                  viewport={{ amount: 0.4 }}
+                >
+                  <CourseCardSearch course={course} isSelected={false} onClick={() => handleCourseClick(course.courseId)} />
+                </motion.div>
+              ))
+            }
+          </div>
+        </motion.div>
+      </div>
     </motion.div>
   );
 };

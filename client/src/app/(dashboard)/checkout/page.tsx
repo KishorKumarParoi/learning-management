@@ -1,0 +1,45 @@
+"use client"
+
+import Loading from '@/components/ui/Loading'
+import WizardStepper from '@/components/WizardStepper'
+import { useCheckoutNavigation } from '@/hooks/useCheckoutNavigation'
+import { useUser } from '@clerk/nextjs'
+import React from 'react'
+import CheckoutDetailsPage from './details'
+import PaymentPage from './payment'
+import CompletionPage from './completion/page'
+import CheckoutPage from './checkout-details'
+
+const CheckoutWizard = () => {
+
+    const { checkoutStep } = useCheckoutNavigation()
+    const { isLoaded } = useUser()
+
+    if (!isLoaded) {
+        return <Loading />
+    }
+
+
+    const renderStep = (checkoutStep: number) => {
+        switch (checkoutStep) {
+            case 1:
+                return <CheckoutDetailsPage />
+            case 2:
+                return <PaymentPage />
+            case 3:
+                return <CompletionPage />
+            default:
+                return <CheckoutPage />
+
+        }
+    }
+
+    return (
+        <div className='checkout'>
+            <WizardStepper currentStep={checkoutStep} />
+            <div className='checkout__content'>{renderStep(checkoutStep)}</div>
+        </div>
+    )
+}
+
+export default CheckoutWizard

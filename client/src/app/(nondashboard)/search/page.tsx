@@ -37,11 +37,11 @@ const SearchPage = () => {
     const handleCourseSelect = (course: Course) => {
         console.log("Course: ", course);
         setSelectedCourse(course);
-        router.push(`/search?id=${course.courseId}`);
+        router.push(`/search?id=${course.courseId}`, { scroll: false });
     }
 
     const handleEnrollNow = (courseId: string) => {
-        router.push(`checkout?step=1&id=${courseId}&showSignUp=false`);
+        router.push(`checkout?step=1&id=${courseId}&showSignUp=true`);
     }
 
     return (
