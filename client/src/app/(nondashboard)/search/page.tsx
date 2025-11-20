@@ -49,7 +49,7 @@ const SearchPage = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5 }}
-            className="flex h-full w-full flex-col items-center justify-center bg-customgreys-primarybg"
+            className="flex h-full w-full flex-col items-center p-20 justify-center bg-customgreys-primarybg"
         >
             <h1 className='search__title'>List of available Courses</h1>
             <h2 className='search__subtitle'>{courses.length} courses available</h2>

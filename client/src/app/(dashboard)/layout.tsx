@@ -15,7 +15,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
     // handle use Effect isCoursePage
     if (!isLoaded) return <Loading />
-    if (!user) return <div>Please sign in to access this page.</div>
+    // if (!user) return <div>Please sign in to access this page.</div>
 
     return (
         <SidebarProvider>
