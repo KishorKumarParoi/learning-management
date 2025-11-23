@@ -1,6 +1,9 @@
 import Stripe from 'stripe';
 import dotenv from 'dotenv';
 import { Request, Response } from 'express';
+import Course from '../models/courseModel';
+import Transaction from '../models/transactionModel';
+import UserCourseProgress from '../models/userCourseProgressModel';
 
 dotenv.config();
 
@@ -36,6 +39,93 @@ export const createStripePaymentIntent = async (req: Request, res: Response): Pr
     } catch (error) {
         res.status(500).json({
             message: 'Failed to create Payment Intent',
+            error
+        });
+    }
+}
+
+export const createTransaction = async (req: Request, res: Response): Promise<void> => {
+    const { userId, courseId, transactionId, amount, paymentProvider } = req.body
+
+    console.log("courseId:", courseId);
+
+    try {
+        // 1. get course info 
+        const course = await Course.get(courseId);
+        console.log("course", course);
+
+        if (!course) {
+            res.status(404).json({ message: 'Course not found' });
+            return;
+        }
+
+        // 2. create transaction record 
+        const newTransaction = new Transaction({
+            dateTime: new Date().toISOString(),
+            userId,
+            courseId,
+            transactionId,
+            amount,
+            paymentProvider,
+        });
+
+
+        try {
+            await newTransaction.save();
+        } catch (error) {
+            console.log("Error on new Transaction", error);
+        }
+
+        // 3. create initial user course progress
+        const initialProgress = new UserCourseProgress({
+            userId,
+            courseId,
+            enrollmentDate: new Date().toISOString(),
+            overallProgress: 0,
+            sections: course.sections.map((section: any) => ({
+                sectionId: section.sectionId,
+                chapters: section.chapters.map((chapter: any) => ({
+                    chapterId: chapter.chapterId,
+                    completed: false
+                }))
+            })),
+            lastAccessedTimestamp: new Date().toISOString()
+        })
+
+        try {
+            await initialProgress.save();
+        } catch (error) {
+            console.log("Error on initial Progress", error);
+        }
+
+        // 4. add enrollment to course
+
+        try {
+            await Course.update(
+                { courseId },
+                {
+                    $ADD: {
+                        enrollments: [{ userId }]
+                    }
+                }
+            )
+        } catch (error) {
+            console.log("Course Update Error: ", error);
+        }
+
+        console.log("initial Progress", initialProgress);
+
+        res.json({
+            message: "Purchased Course Successfully",
+            data: {
+                transaction: newTransaction,
+                courseProgress: initialProgress
+            }
+        })
+
+    } catch (error) {
+        res.status(500).json({
+            message: 'Failed to create transaction and enroll user',
             error
         });
     }

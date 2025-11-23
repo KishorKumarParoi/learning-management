@@ -3,19 +3,63 @@ import StripeProvider from './StripeProvider'
 import { Elements, PaymentElement, useElements, useStripe } from '@stripe/react-stripe-js'
 import { useCheckoutNavigation } from '@/hooks/useCheckoutNavigation';
 import { useCurrentCourse } from '@/hooks/useCurrentCourse';
-import { useUser } from '@clerk/nextjs';
+import { useClerk, useUser } from '@clerk/nextjs';
 import CoursePreview from '@/components/Course-Components/CoursePreview';
 import { CreditCard } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useCreateTransactionMutation } from '@/state/api';
+import { toast } from 'sonner';
 
 const PaymentPageContent = () => {
     const stripe = useStripe();
     const elements = useElements();
-
+    const [createTransaction] = useCreateTransactionMutation();
     const { navigateToStep } = useCheckoutNavigation();
     const { course, courseId } = useCurrentCourse();
-
     const { user } = useUser();
+    const { signout } = useClerk();
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+
+        if (!stripe || !elements) {
+            toast.error("Stripe has not loaded yet. Please try again later.");
+            return;
+        }
+
+        const result = await stripe?.confirmPayment({
+            elements,
+            confirmParams: {
+                return_url: `${process.env.NEXT_PUBLIC_STRIPE_REDIRECT_URL}?id=${courseId}`,
+            },
+            redirect: "if_required"
+        })
+
+        if (result.paymentIntent?.status === "succeeded") {
+            const transactionData: Partial<Transaction> = {
+                transactionId: result.paymentIntent.id,
+                userId: user?.id,
+                courseId: courseId!,
+                paymentProvider: "stripe",
+                amount: course?.price || 0
+            }
+
+            await createTransaction(transactionData).unwrap();
+            navigateToStep(3);
+        }
+    }
+
+    const handleSignOutandNavigate = async () => {
+        await signout();
+        navigateToStep(1);
+    }
+
+
+
+    if (!course) {
+        toast.error("Course information is missing.");
+        return;
+    }
 
 
     return (
@@ -30,7 +74,7 @@ const PaymentPageContent = () => {
                 <div className='payment__form-container'>
                     <form
                         id='payment-form'
-                        // onSubmit={handleSubmit}
+                        onSubmit={handleSubmit}
                         className='payment__form'
                     >
                         <div className='payment__content'>
@@ -60,7 +104,7 @@ const PaymentPageContent = () => {
             {/* Navigation Buttons */}
             <div className='payment__actions'>
                 <Button
-                    // onClick={handleSignOutandNavigate}
+                    onClick={handleSignOutandNavigate}
                     className="hover: bg-white-50/10"
                     variant={'outline'}
                     type='button'
