@@ -7,7 +7,7 @@ const AccordionSections = ({ sections }: AccordionSectionsProps) => {
     return (
         <Accordion type="multiple" className='w-full'>
             {
-                sections.map((section) => (
+                sections && sections.map((section) => (
                     <AccordionItem
                         key={section.sectionId}
                         value={section.sectionTitle}

@@ -56,7 +56,7 @@ const StripeProvider = ({ children }: { children: React.ReactNode }) => {
 
     return (
         <Elements stripe={stripePromise} options={options}>
-            
+            {children}
         </Elements>
     )
 }

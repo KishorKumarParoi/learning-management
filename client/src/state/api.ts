@@ -79,7 +79,7 @@ export const api = createApi({
     }),
     createStripePaymentIntent: build.mutation<{ clientSecret: string }, { amount: number }>({
       query: ({ amount }) => ({
-        url: `transactions/create-payment-intent`,
+        url: `transactions/stripe/create-payment-intent`,
         method: "POST",
         body: { amount }
       }),
