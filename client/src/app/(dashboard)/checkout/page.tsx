@@ -29,7 +29,7 @@ const CheckoutWizard = () => {
             case 3:
                 return <CompletionPage />
             default:
-                return <CheckoutPage />
+                return <CheckoutDetailsPage />
 
         }
     }
