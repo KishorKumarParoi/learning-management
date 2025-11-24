@@ -79,7 +79,7 @@ export const api = createApi({
     }),
     createStripePaymentIntent: build.mutation<{ clientSecret: string }, { amount: number }>({
       query: ({ amount }) => ({
-        url: `transactions/stripe/create-payment-intent`,
+        url: `transactions/create-payment-intent`,
         method: "POST",
         body: { amount }
       }),
@@ -91,8 +91,14 @@ export const api = createApi({
         method: "POST",
         body: transaction
       }),
+    }),
+    getTransactions: build.query<Transaction[], string>({
+      query: (userId) => ({
+        url: `transactions?userId=${userId}`,
+        method: "GET"
+      })
     })
   })
 })
 
-export const { useGetCoursesQuery, useGetCourseQuery, useCreateTransactionMutation, useUpdateUserMutation, useCreateStripePaymentIntentMutation } = api
+export const { useGetCoursesQuery, useGetTransactionsQuery, useGetCourseQuery, useCreateTransactionMutation, useUpdateUserMutation, useCreateStripePaymentIntentMutation } = api
